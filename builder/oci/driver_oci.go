@@ -59,6 +59,10 @@ func NewDriverOCI(cfg *Config) (Driver, error) {
 		return nil, err
 	}
 
+	if lenientHTTPParsingEnabled() {
+		coreClient.HTTPClient = newLenientHTTPClient()
+	}
+
 	vcnClient, err := core.NewVirtualNetworkClientWithConfigurationProvider(cfg.configProvider)
 	if err != nil {
 		return nil, err
